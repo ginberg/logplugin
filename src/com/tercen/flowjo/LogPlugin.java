@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 
 import com.treestar.flowjo.engine.utility.ParameterOptionHolder;
 import com.treestar.lib.core.ExportFileTypes;
@@ -16,10 +16,12 @@ import com.treestar.lib.xml.SElement;
 
 public class LogPlugin extends ParameterOptionHolder implements PopulationPluginInterface {
 	
-	private static final Logger logger = LogManager.getLogger(LogPlugin.class);
+	private static final Logger logger = LogManager.getLogger();
 	
 	public LogPlugin() {	
-		PropertyConfigurator.configure(getClass().getResource("/log4j.properties"));
+		LoggerContext context = (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+		File file = new File("src/main/resources/log4j2.xml");
+		context.setConfigLocation(file.toURI());
 		logger.debug("Init logger plugin....");
 	}
 
